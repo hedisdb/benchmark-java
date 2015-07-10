@@ -3,7 +3,6 @@ package hedis.io.api;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.ws.rs.POST;
@@ -88,8 +87,9 @@ public class DataApi {
 				conn.close();
 				jedis.close();
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+
+				return Response.serverError().build();
 			}
 		}
 	}
