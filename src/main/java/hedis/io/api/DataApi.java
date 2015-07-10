@@ -3,6 +3,7 @@ package hedis.io.api;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.ws.rs.POST;
@@ -48,7 +49,7 @@ public class DataApi {
 	@Path("redis")
 	public Response getRedis(@Context HttpHeaders headers, String query) {
 		Jedis jedis = null;
-
+		Connection conn = null;
 		try {
 			jedis = new Jedis("localhost");
 
@@ -60,8 +61,7 @@ public class DataApi {
 				String username = "root";
 				String password = "PASSWORD";
 
-				Connection conn = DriverManager.getConnection(url, username,
-						password);
+				conn = DriverManager.getConnection(url, username, password);
 				Statement statement = conn.createStatement();
 				ResultSet rs = statement.executeQuery(query);
 
@@ -84,7 +84,13 @@ public class DataApi {
 
 			return Response.serverError().build();
 		} finally {
-			jedis.close();
+			try {
+				conn.close();
+				jedis.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }
