@@ -1,0 +1,57 @@
+10 connections
+	Threads Latency avg 4.57ms
+	Threads Req/Sec avg 777.77
+	92936 requests in 30.02s
+	Requests/sec: 3096.27
+
+50 connections
+	Threads Latency avg 17.68ms
+	Threads Req/Sec avg 772.47
+	92304 requests in 30.03s
+	Requests/sec: 3073.61
+
+100 connections
+	Threads Latency avg 36.41ms
+	Threads Req/Sec avg 770.43
+	90845 requests in 30.02s
+	Requests/sec: 3025.86
+
+500 connections
+	Threads Latency avg 159.05ms
+	Threads Req/Sec avg 777.53
+	92619 requests in 30.05s
+	Requests/sec: 3082.64
+
+1000 connections
+	Threads Latency avg 313.15ms
+	Threads Req/Sec avg 775.84
+	92068 requests in 30.05s
+	Requests/sec: 3063.93
+
+5000 connections
+	Threads Latency avg 317.82ms
+	Threads Req/Sec avg 812.64
+	91969 requests in 30.06s
+	Requests/sec: 3059.61
+	Socket errors: connect 3983, read 0, write 0, timeout 0
+
+10000 connections
+	Threads Latency avg 318.59ms
+	Threads Req/Sec avg 1.20k
+	93171 requests in 30.08s
+	Requests/sec: 3097.34
+	Socket errors: connect 8983, read 0, write 0, timeout 0
+
+50000 connections
+	Threads Latency avg 314.41ms
+	Threads Req/Sec avg 1.56k
+	92698 requests in 30.09s
+	Requests/sec: 3080.51
+	Socket errors: connect 48983, read 0, write 0, timeout 0
+
+100000 connections
+	Threads Latency avg 315.90ms
+	Threads Req/Sec avg 1.55k
+	92208 requests in 30.09s
+	Requests/sec: 3064.35
+	Socket errors: connect 98983, read 0, write 0, timeout 0
