@@ -1,5 +1,7 @@
 package hedis.io.api;
 
+import hedis.io.VMProperties;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -25,7 +27,7 @@ public class DataApi {
 		Jedis jedis = null;
 
 		try {
-			jedis = new Jedis("localhost");
+			jedis = new Jedis(VMProperties.getHedisHost());
 
 			String value = jedis.get(query);
 
@@ -50,15 +52,18 @@ public class DataApi {
 		Jedis jedis = null;
 		Connection conn = null;
 		try {
-			jedis = new Jedis("localhost");
+			jedis = new Jedis(VMProperties.getHedisHost());
 
 			String value = jedis.get(query);
 
 			if (value == null || value.isEmpty()) {
 				Class.forName("com.mysql.jdbc.Driver");
-				String url = "jdbc:mysql://localhost/hedistest?userUnicode=true";
-				String username = "root";
-				String password = "PASSWORD";
+
+				String url = "jdbc:mysql://" + VMProperties.getMySQLHost()
+						+ "/" + VMProperties.getMySQLDatabase()
+						+ "?userUnicode=true";
+				String username = VMProperties.getMySQLUsername();
+				String password = VMProperties.getMySQLPassword();
 
 				conn = DriverManager.getConnection(url, username, password);
 				Statement statement = conn.createStatement();
