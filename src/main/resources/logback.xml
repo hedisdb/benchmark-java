@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true" scan="false">
+    <property name="LOG_HOME" value="log" />
+    <property name="FILE_NAME" value="ap"/>
+    <property name="EXCEPTION_NAME" value="exception"/>
+    <property name="FILE_DATE" value="%d{yyyy-MM-dd}"/>
+    <property name="AP_FILE_NAME" value="${LOG_HOME}/${FILE_NAME}_${FILE_DATE}.%i.log.gz"/>
+    <property name="EXCEPTION_FILE_NAME" value="${LOG_HOME}/${EXCEPTION_NAME}_${FILE_DATE}.%i.log.gz"/>
+    <property name="DEFAULT_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level][%thread] %class.%M [Line:%line] %msg%n" />
+    <property name="EXCEPTION_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} [%-5level][%thread] %class.%M [Line:%line] %ex{full}%n" />
+    
+    <!-- Console -->    
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${DEFAULT_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+    
+    <!-- Ap Log -->
+    <appender name="FILE"  class="ch.qos.logback.core.rolling.RollingFileAppender">    
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${DEFAULT_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${AP_FILE_NAME}</FileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>500MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <!-- Exception Log -->
+    <appender name="EXCEPTION" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${EXCEPTION_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator class="ch.qos.logback.classic.boolex.JaninoEventEvaluator">
+                <expression>throwableProxy != null</expression>
+            </evaluator>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${EXCEPTION_FILE_NAME}</FileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>500MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <!-- Root -->
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+        <appender-ref ref="EXCEPTION" />
+    </root>
+    
+</configuration>

@@ -49,7 +49,7 @@ public class DataApi {
 
 			return Response.ok(value).build();
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("Exception: ", e);
 
 			return Response.serverError().build();
 		} finally {
@@ -98,7 +98,7 @@ public class DataApi {
 				return Response.ok(value).build();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("Exception: ", e);
 
 			return Response.serverError().build();
 		} finally {
@@ -111,7 +111,7 @@ public class DataApi {
 					jedis.close();
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("Exception: ", e);
 
 				return Response.serverError().build();
 			}

@@ -79,64 +79,12 @@
 				<groupId>org.apache.hadoop</groupId>
 				<artifactId>hadoop-common</artifactId>
 				<version>${hadoop.version}</version>
-				<exclusions>
-					<exclusion>
-						<artifactId>log4j</artifactId>
-						<groupId>log4j</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>slf4j-log4j12</artifactId>
-						<groupId>org.slf4j</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>jersey-server</artifactId>
-						<groupId>com.sun.jersey</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>jersey-json</artifactId>
-						<groupId>com.sun.jersey</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>jersey-core</artifactId>
-						<groupId>com.sun.jersey</groupId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.mockito</groupId>
-						<artifactId>mockito-all</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 
 			<dependency>
 				<groupId>org.apache.hadoop</groupId>
 				<artifactId>hadoop-client</artifactId>
 				<version>${hadoop.version}</version>
-				<exclusions>
-					<exclusion>
-						<artifactId>log4j</artifactId>
-						<groupId>log4j</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>slf4j-log4j12</artifactId>
-						<groupId>org.slf4j</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>jersey-server</artifactId>
-						<groupId>com.sun.jersey</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>jersey-json</artifactId>
-						<groupId>com.sun.jersey</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>jersey-core</artifactId>
-						<groupId>com.sun.jersey</groupId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.mockito</groupId>
-						<artifactId>mockito-all</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 
 			<!-- HBase -->
@@ -144,55 +92,11 @@
 				<groupId>org.apache.hbase</groupId>
 				<artifactId>hbase-client</artifactId>
 				<version>${hbase.version}</version>
-				<exclusions>
-					<exclusion>
-						<artifactId>log4j</artifactId>
-						<groupId>log4j</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>slf4j-log4j12</artifactId>
-						<groupId>org.slf4j</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>jersey-server</artifactId>
-						<groupId>com.sun.jersey</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>jersey-json</artifactId>
-						<groupId>com.sun.jersey</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>jersey-core</artifactId>
-						<groupId>com.sun.jersey</groupId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.hbase</groupId>
 				<artifactId>hbase-common</artifactId>
 				<version>${hbase.version}</version>
-				<exclusions>
-					<exclusion>
-						<artifactId>log4j</artifactId>
-						<groupId>log4j</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>slf4j-log4j12</artifactId>
-						<groupId>org.slf4j</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>jersey-server</artifactId>
-						<groupId>com.sun.jersey</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>jersey-json</artifactId>
-						<groupId>com.sun.jersey</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>jersey-core</artifactId>
-						<groupId>com.sun.jersey</groupId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 
 			<!-- Commons Lang -->
@@ -245,6 +149,28 @@
 		<dependency>
 			<groupId>org.glassfish.jersey.core</groupId>
 			<artifactId>jersey-server</artifactId>
+		</dependency>
+
+		<!-- Logging -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.janino</groupId>
+			<artifactId>janino</artifactId>
 		</dependency>
 
 		<!-- Hadoop -->
