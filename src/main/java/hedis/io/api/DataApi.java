@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Map.Entry;
+import java.util.NavigableMap;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -14,10 +16,20 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.client.Get;
+import org.apache.hadoop.hbase.client.HTable;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.util.Bytes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import redis.clients.jedis.Jedis;
 
 @Path("/")
 public class DataApi {
+	private static final Logger LOG = LoggerFactory.getLogger(DataApi.class);
 	private static final boolean DEBUG = false;
 
 	@Produces("application/json")
@@ -47,10 +59,11 @@ public class DataApi {
 
 	@Produces("application/json")
 	@POST
-	@Path("redis")
-	public Response getRedis(@Context HttpHeaders headers, String query) {
+	@Path("redis/mysql")
+	public Response getRedisMySQL(@Context HttpHeaders headers, String query) {
 		Jedis jedis = null;
 		Connection conn = null;
+
 		try {
 			jedis = new Jedis(VMProperties.getHedisHost());
 
@@ -66,6 +79,7 @@ public class DataApi {
 				String password = VMProperties.getMySQLPassword();
 
 				conn = DriverManager.getConnection(url, username, password);
+
 				Statement statement = conn.createStatement();
 				ResultSet rs = statement.executeQuery(query);
 
@@ -89,10 +103,81 @@ public class DataApi {
 			return Response.serverError().build();
 		} finally {
 			try {
-				conn.close();
-				jedis.close();
+				if (conn != null) {
+					conn.close();
+				}
+
+				if (jedis != null) {
+					jedis.close();
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
+
+				return Response.serverError().build();
+			}
+		}
+	}
+
+	@Produces("application/json")
+	@POST
+	@Path("redis/hbase")
+	public Response getRedisHBase(@Context HttpHeaders headers, String query) {
+		Jedis jedis = null;
+		Connection conn = null;
+		HTable table = null;
+
+		try {
+			jedis = new Jedis(VMProperties.getHedisHost());
+
+			String value = jedis.get(query);
+
+			if (value == null || value.isEmpty()) {
+				String[] values = query.split("@");
+
+				Configuration conf = HBaseConfiguration.create();
+
+				table = new HTable(conf, values[0]);
+
+				Get get = new Get(Bytes.toBytes(values[1]));
+
+				Result result = table.get(get);
+
+				StringBuffer sb = new StringBuffer();
+
+				for (Entry<byte[], NavigableMap<byte[], byte[]>> entry : result
+						.getNoVersionMap().entrySet()) {
+					sb.append(Bytes.toString(entry.getKey()));
+
+					for (Entry<byte[], byte[]> entry2 : entry.getValue()
+							.entrySet()) {
+						sb.append(Bytes.toString(entry2.getKey())).append(
+								Bytes.toString(entry2.getValue()));
+					}
+				}
+
+				return Response.ok(sb.toString()).build();
+			} else {
+				return Response.ok(value).build();
+			}
+		} catch (Exception e) {
+			LOG.error("Exception: ", e);
+
+			return Response.serverError().build();
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+
+				if (jedis != null) {
+					jedis.close();
+				}
+
+				if (table != null) {
+					table.close();
+				}
+			} catch (Exception e) {
+				LOG.error("Exception: ", e);
 
 				return Response.serverError().build();
 			}

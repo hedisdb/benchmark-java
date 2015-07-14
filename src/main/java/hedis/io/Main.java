@@ -6,8 +6,12 @@ import java.net.URI;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Main {
+	private static final Logger LOG = LoggerFactory.getLogger(Main.class);
+
 	public static void main(String[] args) {
 		initialServer();
 
@@ -15,7 +19,9 @@ public class Main {
 			try {
 				Thread.sleep(Long.MAX_VALUE);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				LOG.error("Exception: ", e);
+
+				throw new RuntimeException();
 			}
 		}
 	}
@@ -32,7 +38,7 @@ public class Main {
 		try {
 			httpServer.start();
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOG.error("Exception: ", e);
 
 			throw new RuntimeException();
 		}
@@ -45,7 +51,7 @@ public class Main {
 		try {
 			return new URI(sb.toString());
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("Exception: ", e);
 
 			throw new RuntimeException();
 		}

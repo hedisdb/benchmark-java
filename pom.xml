@@ -8,16 +8,11 @@
 	<packaging>jar</packaging>
 
 	<properties>
-		<java-semver.version>0.7.2</java-semver.version>
-		<hadoop.cdh.version>2.5.0-cdh5.3.0</hadoop.cdh.version>
-		<hbase.cdh.version>0.98.6-cdh5.3.0</hbase.cdh.version>
-		<powermock.version>1.5.4</powermock.version>
+		<hadoop.version>2.2.0</hadoop.version>
+		<hbase.version>0.98.7-hadoop2</hbase.version>
 		<jersey-version>2.5</jersey-version>
 		<slf4j-version>1.7.5</slf4j-version>
 		<jdk.version>1.7</jdk.version>
-		<libphonenumber.version>6.1</libphonenumber.version>
-		<zxing.version>3.1.0</zxing.version>
-		<jodatime.version>2.4</jodatime.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -83,7 +78,39 @@
 			<dependency>
 				<groupId>org.apache.hadoop</groupId>
 				<artifactId>hadoop-common</artifactId>
-				<version>${hadoop.cdh.version}</version>
+				<version>${hadoop.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>log4j</artifactId>
+						<groupId>log4j</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>slf4j-log4j12</artifactId>
+						<groupId>org.slf4j</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>jersey-server</artifactId>
+						<groupId>com.sun.jersey</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>jersey-json</artifactId>
+						<groupId>com.sun.jersey</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>jersey-core</artifactId>
+						<groupId>com.sun.jersey</groupId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.mockito</groupId>
+						<artifactId>mockito-all</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.hadoop</groupId>
+				<artifactId>hadoop-client</artifactId>
+				<version>${hadoop.version}</version>
 				<exclusions>
 					<exclusion>
 						<artifactId>log4j</artifactId>
@@ -116,7 +143,7 @@
 			<dependency>
 				<groupId>org.apache.hbase</groupId>
 				<artifactId>hbase-client</artifactId>
-				<version>${hbase.cdh.version}</version>
+				<version>${hbase.version}</version>
 				<exclusions>
 					<exclusion>
 						<artifactId>log4j</artifactId>
@@ -141,16 +168,58 @@
 				</exclusions>
 			</dependency>
 			<dependency>
-				<groupId>org.apache.avro</groupId>
-				<artifactId>avro</artifactId>
-				<version>1.7.5</version>
+				<groupId>org.apache.hbase</groupId>
+				<artifactId>hbase-common</artifactId>
+				<version>${hbase.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>log4j</artifactId>
+						<groupId>log4j</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>slf4j-log4j12</artifactId>
+						<groupId>org.slf4j</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>jersey-server</artifactId>
+						<groupId>com.sun.jersey</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>jersey-json</artifactId>
+						<groupId>com.sun.jersey</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>jersey-core</artifactId>
+						<groupId>com.sun.jersey</groupId>
+					</exclusion>
+				</exclusions>
 			</dependency>
-
-			<!-- MapReduce for HBase -->
 			<dependency>
 				<groupId>org.apache.hbase</groupId>
 				<artifactId>hbase-server</artifactId>
-				<version>${hbase.cdh.version}</version>
+				<version>${hbase.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>log4j</artifactId>
+						<groupId>log4j</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>slf4j-log4j12</artifactId>
+						<groupId>org.slf4j</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>jersey-server</artifactId>
+						<groupId>com.sun.jersey</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>jersey-json</artifactId>
+						<groupId>com.sun.jersey</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>jersey-core</artifactId>
+						<groupId>com.sun.jersey</groupId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 
 			<!-- Commons Lang -->
@@ -203,6 +272,26 @@
 		<dependency>
 			<groupId>org.glassfish.jersey.core</groupId>
 			<artifactId>jersey-server</artifactId>
+		</dependency>
+
+		<!-- Hadoop -->
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-client</artifactId>
+		</dependency>
+
+		<!-- HBase -->
+		<dependency>
+			<groupId>org.apache.hbase</groupId>
+			<artifactId>hbase-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.hbase</groupId>
+			<artifactId>hbase-common</artifactId>
 		</dependency>
 
 		<!-- Redis Client -->

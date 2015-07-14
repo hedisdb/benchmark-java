@@ -71,4 +71,14 @@ public class VMProperties {
 
 		return mysqlPassword;
 	}
+
+	public static String getHBaseZookeeper() {
+		String hbaseZookeeper = SERVER_PROPS.getProperty("hbase.zookeeper");
+
+		if (hbaseZookeeper == null || hbaseZookeeper.isEmpty()) {
+			return "";
+		}
+
+		return hbaseZookeeper;
+	}
 }
